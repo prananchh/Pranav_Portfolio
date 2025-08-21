@@ -85,9 +85,187 @@ export default function ResumeModal({ isOpen, onClose }) {
 
   const handleDownload = async () => {
     setIsDownloading(true)
-
-    // Create a formatted text version of the resume
-    const resumeText = `
+    
+    try {
+      // Dynamic import of jsPDF to avoid SSR issues
+      const { jsPDF } = await import('jspdf')
+      
+      const doc = new jsPDF()
+      
+      // Set font and colors
+      doc.setFont("helvetica")
+      doc.setFontSize(24)
+      doc.setTextColor(139, 92, 246) // Purple color
+      
+      // Header
+      doc.text(resumeData.name, 20, 30)
+      
+      doc.setFontSize(12)
+      doc.setTextColor(100, 100, 100)
+      doc.text(resumeData.availability, 20, 40)
+      
+      // Contact Information
+      doc.setFontSize(14)
+      doc.setTextColor(139, 92, 246)
+      doc.text("Contact Information", 20, 55)
+      
+      doc.setFontSize(10)
+      doc.setTextColor(80, 80, 80)
+      doc.text(`Phone: ${resumeData.contact.phone}`, 20, 65)
+      doc.text(`Email: ${resumeData.contact.email}`, 20, 72)
+      doc.text(`LinkedIn: ${resumeData.contact.linkedin}`, 20, 79)
+      doc.text(`GitHub: ${resumeData.contact.github}`, 20, 86)
+      
+      // Education
+      doc.setFontSize(14)
+      doc.setTextColor(139, 92, 246)
+      doc.text("Education", 20, 100)
+      
+      doc.setFontSize(10)
+      doc.setTextColor(80, 80, 80)
+      doc.text(resumeData.education.university, 20, 110)
+      doc.text(resumeData.education.degree, 20, 117)
+      doc.text(resumeData.education.location, 20, 124)
+      
+      // Skills
+      doc.setFontSize(14)
+      doc.setTextColor(139, 92, 246)
+      doc.text("Skills", 20, 140)
+      
+      doc.setFontSize(10)
+      doc.setTextColor(80, 80, 80)
+      
+      // Split long skill text into multiple lines
+      const splitText = (text, maxWidth) => {
+        const words = text.split(', ')
+        const lines = []
+        let currentLine = ''
+        
+        words.forEach(word => {
+          if ((currentLine + word).length * 3 < maxWidth) {
+            currentLine += (currentLine ? ', ' : '') + word
+          } else {
+            if (currentLine) lines.push(currentLine)
+            currentLine = word
+          }
+        })
+        if (currentLine) lines.push(currentLine)
+        return lines
+      }
+      
+      let yPos = 150
+      doc.text("Programming:", 20, yPos)
+      yPos += 7
+      const programmingLines = splitText(resumeData.skills.programming, 170)
+      programmingLines.forEach(line => {
+        doc.text(line, 25, yPos)
+        yPos += 7
+      })
+      
+      yPos += 3
+      doc.text("Software Skills:", 20, yPos)
+      yPos += 7
+      const softwareLines = splitText(resumeData.skills.software, 170)
+      softwareLines.forEach(line => {
+        doc.text(line, 25, yPos)
+        yPos += 7
+      })
+      
+      yPos += 3
+      doc.text("Technologies:", 20, yPos)
+      yPos += 7
+      const techLines = splitText(resumeData.skills.technologies, 170)
+      techLines.forEach(line => {
+        doc.text(line, 25, yPos)
+        yPos += 7
+      })
+      
+      // Experience
+      doc.setFontSize(14)
+      doc.setTextColor(139, 92, 246)
+      doc.text("Technical Experience", 20, yPos + 10)
+      yPos += 20
+      
+      doc.setFontSize(10)
+      doc.setTextColor(80, 80, 80)
+      
+      resumeData.experience.forEach(exp => {
+        doc.setFontSize(12)
+        doc.setTextColor(139, 92, 246)
+        doc.text(`${exp.title} - ${exp.company || 'Freelance'}`, 20, yPos)
+        
+        doc.setFontSize(10)
+        doc.setTextColor(100, 100, 100)
+        doc.text(exp.period, 20, yPos + 7)
+        
+        yPos += 15
+        doc.setTextColor(80, 80, 80)
+        
+        exp.achievements.forEach(achievement => {
+          const achievementLines = splitText(achievement, 160)
+          achievementLines.forEach(line => {
+            doc.text(`• ${line}`, 25, yPos)
+            yPos += 7
+          })
+          yPos += 3
+        })
+        
+        yPos += 5
+      })
+      
+      // Projects
+      doc.setFontSize(14)
+      doc.setTextColor(139, 92, 246)
+      doc.text("Projects", 20, yPos + 10)
+      yPos += 20
+      
+      doc.setFontSize(10)
+      doc.setTextColor(80, 80, 80)
+      
+      resumeData.projects.forEach(project => {
+        doc.setFontSize(12)
+        doc.setTextColor(139, 92, 246)
+        doc.text(project.title, 20, yPos)
+        
+        doc.setFontSize(10)
+        doc.setTextColor(100, 100, 100)
+        doc.text(project.date, 20, yPos + 7)
+        
+        yPos += 15
+        doc.setTextColor(80, 80, 80)
+        
+        const descLines = splitText(project.description, 160)
+        descLines.forEach(line => {
+          doc.text(line, 25, yPos)
+          yPos += 7
+        })
+        
+        if (project.tech) {
+          yPos += 3
+          const techLines = splitText(project.tech, 160)
+          techLines.forEach(line => {
+            doc.text(line, 25, yPos)
+            yPos += 7
+          })
+        }
+        
+        if (project.impact) {
+          yPos += 3
+          doc.setTextColor(139, 92, 246)
+          doc.text(project.impact, 25, yPos)
+          yPos += 7
+        }
+        
+        yPos += 5
+      })
+      
+      // Save the PDF
+      doc.save("Pranav_Chopra_Resume.pdf")
+      
+    } catch (error) {
+      console.error('Error generating PDF:', error)
+      // Fallback to text download if PDF generation fails
+      const resumeText = `
 ${resumeData.name}
 Work Availability: ${resumeData.availability}
 
@@ -128,19 +306,19 @@ ${project.impact || ""}
 `,
   )
   .join("\n")}
-    `.trim()
+      `.trim()
 
-    // Create and download the file
-    const blob = new Blob([resumeText], { type: "text/plain" })
-    const url = URL.createObjectURL(blob)
-    const a = document.createElement("a")
-    a.href = url
-    a.download = "Pranav_Chopra_Resume.txt"
-    document.body.appendChild(a)
-    a.click()
-    document.body.removeChild(a)
-    URL.revokeObjectURL(url)
-
+      const blob = new Blob([resumeText], { type: "text/plain" })
+      const url = URL.createObjectURL(blob)
+      const a = document.createElement("a")
+      a.href = url
+      a.download = "Pranav_Chopra_Resume.txt"
+      document.body.appendChild(a)
+      a.click()
+      document.body.removeChild(a)
+      URL.revokeObjectURL(url)
+    }
+    
     setTimeout(() => setIsDownloading(false), 1000)
   }
 

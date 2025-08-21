@@ -117,17 +117,16 @@ export default function ProjectsSection() {
 
                   {/* GitHub Link */}
                   <div className="mt-auto">
-                    <Button
-                      variant="outline"
-                      className={`w-full border-2 bg-gradient-to-r ${project.gradient} border-transparent text-white hover:shadow-lg hover:scale-105 transition-all duration-300 group-hover:shadow-purple-200`}
-                      asChild
+                    <a 
+                      href={project.github} 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className={`w-full inline-flex items-center justify-center px-4 py-2 border-2 bg-gradient-to-r ${project.gradient} border-transparent text-white hover:shadow-lg hover:scale-105 transition-all duration-300 group-hover:shadow-purple-200 rounded-md`}
                     >
-                      <a href={project.github} target="_blank" rel="noopener noreferrer">
-                        <Github size={16} className="mr-2" />
-                        View on GitHub
-                        <ExternalLink size={14} className="ml-2" />
-                      </a>
-                    </Button>
+                      <Github size={16} className="mr-2" />
+                      View on GitHub
+                      <ExternalLink size={14} className="ml-2" />
+                    </a>
                   </div>
                 </CardContent>
               </Card>
@@ -138,17 +137,15 @@ export default function ProjectsSection() {
         {/* Call to Action */}
         <div className="text-center mt-16">
           <p className="text-lg text-gray-600 mb-6">Interested in seeing more of my work?</p>
-          <Button
-            variant="outline"
-            size="lg"
-            className="px-8 py-3 border-2 border-purple-500 text-purple-500 hover:bg-purple-500 hover:text-white transition-all duration-300 hover:scale-105 rounded-full bg-transparent"
-            asChild
+          <a 
+            href="https://github.com/prananchh" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="inline-flex items-center px-8 py-3 border-2 border-purple-500 text-purple-500 hover:bg-purple-500 hover:text-white transition-all duration-300 hover:scale-105 rounded-full bg-transparent"
           >
-            <a href="https://github.com/prananchh" target="_blank" rel="noopener noreferrer">
-              <Github size={20} className="mr-2" />
-              Visit My GitHub
-            </a>
-          </Button>
+            <Github size={20} className="mr-2" />
+            Visit My GitHub
+          </a>
         </div>
       </div>
     </section>

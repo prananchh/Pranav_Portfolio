@@ -6,13 +6,15 @@ import { Button } from "@/components/ui/button"
 export default function Navigation() {
   const [isScrolled, setIsScrolled] = useState(false)
   const [activeSection, setActiveSection] = useState("hero")
+  const [isMounted, setIsMounted] = useState(false)
 
   useEffect(() => {
+    setIsMounted(true)
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50)
 
       // Update active section based on scroll position
-      const sections = ["hero", "about", "experience", "projects", "contact"]
+      const sections = ["hero", "about", "experience", "projects"]
       const scrollPosition = window.scrollY + 100
 
       for (const section of sections) {
@@ -31,19 +33,24 @@ export default function Navigation() {
     return () => window.removeEventListener("scroll", handleScroll)
   }, [])
 
+  if (!isMounted) {
+    return (
+      <nav className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md shadow-lg">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between h-16">
+            <div className="text-xl font-bold gradient-text">Pranav Chopra</div>
+          </div>
+        </div>
+      </nav>
+    )
+  }
+
   const scrollToSection = (sectionId) => {
     const element = document.getElementById(sectionId)
     if (element) {
       element.scrollIntoView({ behavior: "smooth" })
     }
   }
-
-  const navItems = [
-    { id: "about", label: "About" },
-    { id: "experience", label: "Experience" },
-    { id: "projects", label: "Projects" },
-    { id: "contact", label: "Contact" },
-  ]
 
   return (
     <nav
@@ -62,21 +69,31 @@ export default function Navigation() {
           </button>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-8">
-            {navItems.map((item) => (
-              <button
-                key={item.id}
-                onClick={() => scrollToSection(item.id)}
-                className={`relative px-3 py-2 text-sm font-medium transition-colors duration-200 hover:text-pink-500 ${
-                  activeSection === item.id ? "text-pink-500" : "text-gray-700"
-                }`}
-              >
-                {item.label}
-                {activeSection === item.id && (
-                  <div className="absolute bottom-0 left-0 right-0 h-0.5 gradient-pink-purple rounded-full" />
-                )}
-              </button>
-            ))}
+          <div className="hidden md:flex space-x-8">
+            <button
+              onClick={() => scrollToSection("about")}
+              className={`text-sm font-medium transition-colors duration-200 hover:text-purple-600 ${
+                activeSection === "about" ? "text-purple-600" : "text-gray-700"
+              }`}
+            >
+              About
+            </button>
+            <button
+              onClick={() => scrollToSection("experience")}
+              className={`text-sm font-medium transition-colors duration-200 hover:text-purple-600 ${
+                activeSection === "experience" ? "text-purple-600" : "text-gray-700"
+              }`}
+            >
+              Experience
+            </button>
+            <button
+              onClick={() => scrollToSection("projects")}
+              className={`text-sm font-medium transition-colors duration-200 hover:text-purple-600 ${
+                activeSection === "projects" ? "text-purple-600" : "text-gray-700"
+              }`}
+            >
+              Projects
+            </button>
           </div>
 
           {/* Mobile Menu Button */}

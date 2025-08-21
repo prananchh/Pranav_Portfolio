@@ -5,8 +5,10 @@ import { useState, useEffect } from "react"
 // Page loading animation component
 export function PageLoader({ isLoading, children }) {
   const [showContent, setShowContent] = useState(false)
+  const [isMounted, setIsMounted] = useState(false)
 
   useEffect(() => {
+    setIsMounted(true)
     if (!isLoading) {
       const timer = setTimeout(() => {
         setShowContent(true)
@@ -14,6 +16,10 @@ export function PageLoader({ isLoading, children }) {
       return () => clearTimeout(timer)
     }
   }, [isLoading])
+
+  if (!isMounted) {
+    return <div className="min-h-screen bg-gradient-to-br from-pink-50 via-purple-50 to-orange-50" />
+  }
 
   if (isLoading) {
     return (

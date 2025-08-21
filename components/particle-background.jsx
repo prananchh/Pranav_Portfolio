@@ -27,13 +27,17 @@ export default function ParticleBackground() {
 
   const initParticles = useCallback(() => {
     const canvas = canvasRef.current
-    if (!canvas) return
+    if (!canvas || typeof window === 'undefined') return
 
     const ctx = canvas.getContext("2d")
     const particles = []
 
     // Check for reduced motion preference
     isReducedMotion.current = window.matchMedia("(prefers-reduced-motion: reduce)").matches
+
+    // Set canvas size
+    canvas.width = window.innerWidth
+    canvas.height = window.innerHeight
 
     let resizeTimeout
     const resizeCanvas = () => {
@@ -150,33 +154,46 @@ export default function ParticleBackground() {
 
   useEffect(() => {
     const canvas = canvasRef.current
-    if (!canvas) return
+    if (!canvas || typeof window === 'undefined') return
 
     const ctx = canvas.getContext("2d")
-    const particles = particlesRef.current
+    if (!ctx) return
 
     // Initialize
     initParticles()
 
     let frameCount = 0
     const animate = () => {
-      frameCount++
+      try {
+        frameCount++
 
-      // Clear canvas
-      ctx.clearRect(0, 0, canvas.width, canvas.height)
+        // Clear canvas
+        ctx.clearRect(0, 0, canvas.width, canvas.height)
 
-      // Update and draw particles
-      particles.forEach((particle) => {
-        particle.update()
-        particle.draw()
-      })
+        // Update and draw particles
+        const particles = particlesRef.current
+        if (particles && particles.length > 0) {
+          particles.forEach((particle) => {
+            try {
+              particle.update()
+              particle.draw()
+            } catch (error) {
+              console.warn('Particle error:', error)
+            }
+          })
 
-      // Draw connections every other frame for better performance
-      if (frameCount % 2 === 0) {
-        drawConnections()
+          // Draw connections every other frame for better performance
+          if (frameCount % 2 === 0) {
+            drawConnections()
+          }
+        }
+
+        animationRef.current = requestAnimationFrame(animate)
+      } catch (error) {
+        console.warn('Animation error:', error)
+        // Continue animation even if there's an error
+        animationRef.current = requestAnimationFrame(animate)
       }
-
-      animationRef.current = requestAnimationFrame(animate)
     }
 
     let mouseMoveTimeout

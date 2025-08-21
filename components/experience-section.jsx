@@ -144,18 +144,16 @@ export default function ExperienceSection() {
 
                       {/* GitHub Link */}
                       {exp.github && (
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          className="border-purple-300 text-purple-600 hover:bg-purple-50 hover:border-purple-400 bg-transparent"
-                          asChild
+                        <a 
+                          href={exp.github} 
+                          target="_blank" 
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center px-4 py-2 text-sm border border-purple-300 text-purple-600 hover:bg-purple-50 hover:border-purple-400 bg-transparent rounded-md transition-colors duration-200"
                         >
-                          <a href={exp.github} target="_blank" rel="noopener noreferrer">
-                            <Github size={16} className="mr-2" />
-                            View Project
-                            <ExternalLink size={14} className="ml-2" />
-                          </a>
-                        </Button>
+                          <Github size={16} className="mr-2" />
+                          View Project
+                          <ExternalLink size={14} className="ml-2" />
+                        </a>
                       )}
                     </CardContent>
                   </Card>

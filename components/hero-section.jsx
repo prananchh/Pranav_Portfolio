@@ -7,7 +7,6 @@ import { useScrollAnimation, animationVariants } from "@/components/enhanced-scr
 import ResumeModal from "@/components/resume-modal"
 
 export default function HeroSection() {
-  const [isVisible, setIsVisible] = useState(false)
   const [ripples, setRipples] = useState([])
   const [isResumeModalOpen, setIsResumeModalOpen] = useState(false)
   const {
@@ -19,10 +18,6 @@ export default function HeroSection() {
     stages: 6,
     staggerDelay: 200,
   })
-
-  useEffect(() => {
-    setIsVisible(true)
-  }, [])
 
   const handleRippleClick = (e) => {
     const button = e.currentTarget
@@ -45,17 +40,12 @@ export default function HeroSection() {
     }, 600)
   }
 
-  const scrollToContact = () => {
-    const contactSection = document.getElementById("contact")
-    if (contactSection) {
-      contactSection.scrollIntoView({ behavior: "smooth" })
-    }
-  }
-
   const scrollToAbout = () => {
-    const aboutSection = document.getElementById("about")
-    if (aboutSection) {
-      aboutSection.scrollIntoView({ behavior: "smooth" })
+    if (typeof window !== 'undefined') {
+      const aboutSection = document.getElementById("about")
+      if (aboutSection) {
+        aboutSection.scrollIntoView({ behavior: "smooth" })
+      }
     }
   }
 
@@ -110,7 +100,7 @@ export default function HeroSection() {
             className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-8 will-change-transform"
             style={animationVariants.fadeInUp(scrollVisible && animationStage >= 5, 800)}
           >
-            <InteractiveButton onClick={scrollToContact} variant="primary" size="lg" className="rounded-full">
+            <InteractiveButton onClick={scrollToAbout} variant="primary" size="lg" className="rounded-full">
               Get In Touch
             </InteractiveButton>
 
@@ -121,7 +111,7 @@ export default function HeroSection() {
               size="lg"
               className="rounded-full"
             >
-              My Resume
+              Download Resume
             </InteractiveButton>
           </div>
 
@@ -152,7 +142,7 @@ export default function HeroSection() {
               className="p-3 rounded-full bg-white shadow-md hover:shadow-lg hover:scale-110 transition-all duration-300 text-gray-700 hover:text-orange-500"
               strength={0.2}
             >
-              <a href="mailto:your.email@example.com">
+              <a href="mailto:pranav.chopra06@gmail.com">
                 <Mail size={24} />
               </a>
             </MagneticButton>
