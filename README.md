@@ -1,12 +1,14 @@
  Pranav Chopra - AI/ML Engineer & Full Stack Developer
  Software Engineering Co-op Student at Western University**  
- Available for Summer 2025 Full-Time Internships (May-August)**
 
 ---
 
- **About This Project**
 
-This is my personal portfolio website showcasing my skills, experience, and projects. Built with modern web technologies, it features smooth animations, responsive design, and a unique PDF resume download system that demonstrates my technical capabilities.
+This is my personal portfolio website showcasing my skills, experience, and projects
+Available for Summer 2026 Full-Time Co-op/Internships
+Available for Winter 2026 Full-Time Co-op/Internships
+Available for Fall 2027 Full-Time Co-op/Internships
+Available for Summer 2027 Full-Time Co-op/Internships
 
 ---
 
