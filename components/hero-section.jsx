@@ -59,14 +59,18 @@ export default function HeroSection() {
         <div className="max-w-4xl mx-auto text-center">
           {/* Profile Image */}
           <div
-            className="w-32 h-32 mx-auto mb-8 rounded-full bg-gradient-to-br from-pink-400 via-purple-500 to-orange-400 p-1 will-change-transform"
+            className="w-40 h-40 md:w-48 md:h-48 mx-auto mb-8 rounded-full bg-gradient-to-br from-pink-400 via-purple-500 to-orange-400 p-1 will-change-transform hover:scale-105 transition-transform duration-300 shadow-2xl"
             style={animationVariants.scaleIn(scrollVisible && animationStage >= 1, 0)}
           >
-            <div className="w-full h-full rounded-full bg-white flex items-center justify-center">
+            <div className="w-full h-full rounded-full bg-white flex items-center justify-center overflow-hidden shadow-inner">
               <img
-                src="/placeholder.svg?height=120&width=120"
-                alt="Pranav Chopra"
-                className="w-28 h-28 rounded-full object-cover"
+                src="/images/profile-photo.jpg"
+                alt="Pranav Chopra - AI/ML Engineer & Full Stack Developer"
+                className="w-full h-full rounded-full object-cover object-center"
+                onError={(e) => {
+                  // Fallback to placeholder if image fails to load
+                  e.target.src = "/placeholder.svg?height=120&width=120"
+                }}
               />
             </div>
           </div>
