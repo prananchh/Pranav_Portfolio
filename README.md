@@ -1,17 +1,16 @@
-# 🚀 Pranav Chopra - AI/ML Engineer & Full Stack Developer
-
-> **🎯 Software Engineering Co-op Student at Western University**  
-> **🌱 Available for Summer 2025 Full-Time Internships (May-August)**
+ Pranav Chopra - AI/ML Engineer & Full Stack Developer
+ Software Engineering Co-op Student at Western University**  
+ Available for Summer 2025 Full-Time Internships (May-August)**
 
 ---
 
-## 📖 **About This Project**
+ **About This Project**
 
 This is my personal portfolio website showcasing my skills, experience, and projects. Built with modern web technologies, it features smooth animations, responsive design, and a unique PDF resume download system that demonstrates my technical capabilities.
 
 ---
 
-## 🛠️ **Tech Stack & How It All Works Together**
+ **Tech Stack & How It All Works Together**
 
 ### **Core Framework: Next.js 14**
 - **App Router**: Modern file-based routing system that automatically creates routes from your file structure
@@ -51,7 +50,7 @@ This is my personal portfolio website showcasing my skills, experience, and proj
 
 ---
 
-## 🔧 **How Everything Connects**
+ **How Everything Connects**
 
 ### **1. Page Structure & Routing**
 ```
@@ -86,7 +85,7 @@ components/
 
 ---
 
-## 🚀 **Getting Started**
+ **Getting Started**
 
 ### **Prerequisites**
 ```bash
@@ -120,7 +119,7 @@ npm start
 
 ---
 
-## 📱 **Responsive Design System**
+ **Responsive Design System**
 
 - **Mobile-First**: Designed for mobile devices first, then enhanced for larger screens
 - **Breakpoints**: Uses Tailwind's responsive utilities for consistent layouts
@@ -129,7 +128,7 @@ npm start
 
 ---
 
-## 🎨 **Design System**
+ **Design System**
 
 ### **Color Palette**
 - **Primary**: Purple (#8B5CF6) for main elements and accents
@@ -144,7 +143,7 @@ npm start
 
 ---
 
-## 🔍 **Key Features Explained**
+ **Key Features Explained**
 
 ### **PDF Resume System**
 1. **User clicks "Download Resume"** → Opens modal with resume content
@@ -158,7 +157,7 @@ npm start
 3. **CSS transitions** → Smooth animation to visible state (opacity: 1, transform: translateY(0))
 4. **Performance** → Uses CSS transforms and opacity for GPU acceleration
 
-### **Responsive Navigation**
+**Responsive Navigation**
 1. **Mobile detection** → Automatically switches to hamburger menu on small screens
 2. **Smooth scrolling** → Uses `scrollIntoView` with smooth behavior
 3. **Active states** → Highlights current section based on scroll position
@@ -166,7 +165,7 @@ npm start
 
 ---
 
-## 📊 **Performance Optimizations**
+ **Performance Optimizations**
 
 - **Code Splitting**: Next.js automatically splits code by route
 - **Image Optimization**: Built-in image optimization and lazy loading
@@ -176,7 +175,7 @@ npm start
 
 ---
 
-## 🔧 **Development Workflow**
+ **Development Workflow**
 
 1. **Component Development**: Create new components in the `components/` directory
 2. **Styling**: Use Tailwind classes and extend with custom CSS when needed
@@ -186,18 +185,17 @@ npm start
 
 ---
 
-## 📞 **Connect With Me**
+**Connect With Me**
 
-- **💼 LinkedIn**: [pchopr2](https://www.linkedin.com/in/pchopr2/)
-- **🐙 GitHub**: [prananchh](https://github.com/prananchh)
-- **📧 Email**: [pranav.chopra06@gmail.com](mailto:pranav.chopra06@gmail.com)
-- **📱 Phone**: +1 (437) 213-4288
+- ** LinkedIn**: [pchopr2](https://www.linkedin.com/in/pchopr2/)
+- ** GitHub**: [prananchh](https://github.com/prananchh)
+- ** Email**: [pranav.chopra06@gmail.com](mailto:pranav.chopra06@gmail.com)
+- ** Phone**: +1 (437) 213-4288
 
 ---
 
 <div align="center">
 
-**⭐ Star this repository if you found it helpful!**
 
 **Made with ❤️ by Pranav Chopra**
 
