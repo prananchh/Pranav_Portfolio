@@ -102,185 +102,33 @@ export default function ResumeModal({ isOpen, onClose }) {
     setIsDownloading(true)
     
     try {
-      // Dynamic import of jsPDF to avoid SSR issues
-      const { jsPDF } = await import('jspdf')
+      // Download the actual resume.pdf file from public folder
+      const resumeUrl = '/resume.pdf'
       
-      const doc = new jsPDF()
+      // Create a download link
+      const link = document.createElement('a')
+      link.href = resumeUrl
+      link.download = 'Pranav_Chopra_Resume.pdf'
+      link.target = '_blank'
       
-      // Set font and colors
-      doc.setFont("helvetica")
-      doc.setFontSize(24)
-      doc.setTextColor(139, 92, 246) // Purple color
+      // Append to body, click, and remove
+      document.body.appendChild(link)
+      link.click()
+      document.body.removeChild(link)
       
-      // Header
-      doc.text(resumeData.name, 20, 30)
-      
-      doc.setFontSize(12)
-      doc.setTextColor(100, 100, 100)
-      doc.text(resumeData.availability, 20, 40)
-      
-      // Contact Information
-      doc.setFontSize(14)
-      doc.setTextColor(139, 92, 246)
-      doc.text("Contact Information", 20, 55)
-      
-      doc.setFontSize(10)
-      doc.setTextColor(80, 80, 80)
-      doc.text(`Phone: ${resumeData.contact.phone}`, 20, 65)
-      doc.text(`Email: ${resumeData.contact.email}`, 20, 72)
-      doc.text(`LinkedIn: ${resumeData.contact.linkedin}`, 20, 79)
-      doc.text(`GitHub: ${resumeData.contact.github}`, 20, 86)
-      
-      // Education
-      doc.setFontSize(14)
-      doc.setTextColor(139, 92, 246)
-      doc.text("Education", 20, 100)
-      
-      doc.setFontSize(10)
-      doc.setTextColor(80, 80, 80)
-      doc.text(resumeData.education.university, 20, 110)
-      doc.text(resumeData.education.degree, 20, 117)
-      doc.text(resumeData.education.location, 20, 124)
-      
-      // Skills
-      doc.setFontSize(14)
-      doc.setTextColor(139, 92, 246)
-      doc.text("Skills", 20, 140)
-      
-      doc.setFontSize(10)
-      doc.setTextColor(80, 80, 80)
-      
-      // Split long skill text into multiple lines
-      const splitText = (text, maxWidth) => {
-        const words = text.split(', ')
-        const lines = []
-        let currentLine = ''
-        
-        words.forEach(word => {
-          if ((currentLine + word).length * 3 < maxWidth) {
-            currentLine += (currentLine ? ', ' : '') + word
-          } else {
-            if (currentLine) lines.push(currentLine)
-            currentLine = word
-          }
-        })
-        if (currentLine) lines.push(currentLine)
-        return lines
-      }
-      
-      let yPos = 150
-      doc.text("Programming:", 20, yPos)
-      yPos += 7
-      const programmingLines = splitText(resumeData.skills.programming, 170)
-      programmingLines.forEach(line => {
-        doc.text(line, 25, yPos)
-        yPos += 7
-      })
-      
-      yPos += 3
-      doc.text("Software Skills:", 20, yPos)
-      yPos += 7
-      const softwareLines = splitText(resumeData.skills.software, 170)
-      softwareLines.forEach(line => {
-        doc.text(line, 25, yPos)
-        yPos += 7
-      })
-      
-      yPos += 3
-      doc.text("Technologies:", 20, yPos)
-      yPos += 7
-      const techLines = splitText(resumeData.skills.technologies, 170)
-      techLines.forEach(line => {
-        doc.text(line, 25, yPos)
-        yPos += 7
-      })
-      
-      // Experience
-      doc.setFontSize(14)
-      doc.setTextColor(139, 92, 246)
-      doc.text("Technical Experience", 20, yPos + 10)
-      yPos += 20
-      
-      doc.setFontSize(10)
-      doc.setTextColor(80, 80, 80)
-      
-      resumeData.experience.forEach(exp => {
-        doc.setFontSize(12)
-        doc.setTextColor(139, 92, 246)
-        doc.text(`${exp.title} - ${exp.company || 'Freelance'}`, 20, yPos)
-        
-        doc.setFontSize(10)
-        doc.setTextColor(100, 100, 100)
-        doc.text(exp.period, 20, yPos + 7)
-        
-        yPos += 15
-        doc.setTextColor(80, 80, 80)
-        
-        exp.achievements.forEach(achievement => {
-          const achievementLines = splitText(achievement, 160)
-          achievementLines.forEach(line => {
-            doc.text(`• ${line}`, 25, yPos)
-            yPos += 7
-          })
-          yPos += 3
-        })
-        
-        yPos += 5
-      })
-      
-      // Projects
-      doc.setFontSize(14)
-      doc.setTextColor(139, 92, 246)
-      doc.text("Projects", 20, yPos + 10)
-      yPos += 20
-      
-      doc.setFontSize(10)
-      doc.setTextColor(80, 80, 80)
-      
-      resumeData.projects.forEach(project => {
-        doc.setFontSize(12)
-        doc.setTextColor(139, 92, 246)
-        doc.text(project.title, 20, yPos)
-        
-        doc.setFontSize(10)
-        doc.setTextColor(100, 100, 100)
-        doc.text(project.date, 20, yPos + 7)
-        
-        yPos += 15
-        doc.setTextColor(80, 80, 80)
-        
-        const descLines = splitText(project.description, 160)
-        descLines.forEach(line => {
-          doc.text(line, 25, yPos)
-          yPos += 7
-        })
-        
-        if (project.tech) {
-          yPos += 3
-          const techLines = splitText(project.tech, 160)
-          techLines.forEach(line => {
-            doc.text(line, 25, yPos)
-            yPos += 7
-          })
-        }
-        
-        if (project.impact) {
-          yPos += 3
-          doc.setTextColor(139, 92, 246)
-          doc.text(project.impact, 25, yPos)
-          yPos += 7
-        }
-        
-        yPos += 5
-      })
-      
-      // Save the PDF
-      doc.save("Pranav_Chopra_Resume.pdf")
+      console.log('Resume downloaded successfully!')
       
     } catch (error) {
-      console.error('Error generating PDF:', error)
-      // Fallback to text download if PDF generation fails
-      const resumeText = `
+      console.error('Error downloading resume:', error)
+      // Fallback to text download if needed
+      downloadAsText()
+    }
+    
+    setTimeout(() => setIsDownloading(false), 1000)
+  }
+
+  const downloadAsText = () => {
+    const resumeText = `
 ${resumeData.name}
 Work Availability: ${resumeData.availability}
 
@@ -321,25 +169,22 @@ ${project.impact || ""}
 `,
   )
   .join("\n")}
-      `.trim()
+    `.trim()
 
-      const blob = new Blob([resumeText], { type: "text/plain" })
-      const url = URL.createObjectURL(blob)
-      const a = document.createElement("a")
-      a.href = url
-      a.download = "Pranav_Chopra_Resume.txt"
-      document.body.appendChild(a)
-      a.click()
-      document.body.removeChild(a)
-      URL.revokeObjectURL(url)
-    }
-    
-    setTimeout(() => setIsDownloading(false), 1000)
+    const blob = new Blob([resumeText], { type: "text/plain" })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement("a")
+    a.href = url
+    a.download = "Pranav_Chopra_Resume.txt"
+    document.body.appendChild(a)
+    a.click()
+    document.body.removeChild(a)
+    URL.revokeObjectURL(url)
   }
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
-      <div className="bg-white rounded-lg max-w-4xl w-full max-h-[90vh] overflow-hidden shadow-2xl">
+      <div className="bg-white rounded-lg w-[95vw] h-[95vh] max-w-7xl shadow-2xl flex flex-col">
         {/* Header */}
         <div className="flex items-center justify-between p-6 border-b bg-gradient-to-r from-pink-500 via-purple-500 to-orange-500 text-white">
           <h2 className="text-2xl font-bold">Resume - {resumeData.name}</h2>
@@ -361,122 +206,21 @@ ${project.impact || ""}
           </div>
         </div>
 
+        {/* Helpful Info */}
+        <div className="px-6 py-3 bg-green-50 border-b border-green-200">
+          <p className="text-sm text-green-700">
+            You can download my resume by clicking on the "download" button on the top right corner.
+          </p>
+        </div>
+
         {/* Content */}
-        <div className="p-6 overflow-y-auto max-h-[calc(90vh-80px)]">
-          {/* Contact & Availability */}
-          <div className="mb-6">
-            <div className="text-center mb-4">
-              <h1 className="text-3xl font-bold text-gray-800 mb-2">{resumeData.name}</h1>
-              <p className="text-lg text-purple-600 font-medium">Work Availability: {resumeData.availability}</p>
-            </div>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
-              <div className="flex items-center gap-2">
-                <span className="font-medium">Phone:</span>
-                <span>{resumeData.contact.phone}</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <span className="font-medium">Email:</span>
-                <span>{resumeData.contact.email}</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <span className="font-medium">LinkedIn:</span>
-                <a
-                  href={`https://${resumeData.contact.linkedin}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-blue-600 hover:underline"
-                >
-                  Profile <ExternalLink size={12} className="inline" />
-                </a>
-              </div>
-              <div className="flex items-center gap-2">
-                <span className="font-medium">GitHub:</span>
-                <a
-                  href={resumeData.contact.github}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-blue-600 hover:underline"
-                >
-                  Profile <ExternalLink size={12} className="inline" />
-                </a>
-              </div>
-            </div>
-          </div>
-
-          {/* Education */}
-          <div className="mb-6">
-            <h3 className="text-xl font-bold text-gray-800 mb-3 border-b-2 border-purple-200 pb-1">Education</h3>
-            <div>
-              <h4 className="font-semibold text-gray-700">{resumeData.education.university}</h4>
-              <p className="text-gray-600">{resumeData.education.degree}</p>
-              <p className="text-gray-500 text-sm">{resumeData.education.location}</p>
-            </div>
-          </div>
-
-          {/* Skills */}
-          <div className="mb-6">
-            <h3 className="text-xl font-bold text-gray-800 mb-3 border-b-2 border-purple-200 pb-1">Skills</h3>
-            <div className="space-y-3">
-              <div>
-                <h4 className="font-semibold text-gray-700 mb-1">Programming:</h4>
-                <p className="text-gray-600 text-sm">{resumeData.skills.programming}</p>
-              </div>
-              <div>
-                <h4 className="font-semibold text-gray-700 mb-1">Software Skills:</h4>
-                <p className="text-gray-600 text-sm">{resumeData.skills.software}</p>
-              </div>
-              <div>
-                <h4 className="font-semibold text-gray-700 mb-1">Technologies/Frameworks:</h4>
-                <p className="text-gray-600 text-sm">{resumeData.skills.technologies}</p>
-              </div>
-            </div>
-          </div>
-
-          {/* Experience */}
-          <div className="mb-6">
-            <h3 className="text-xl font-bold text-gray-800 mb-3 border-b-2 border-purple-200 pb-1">
-              Technical Experience
-            </h3>
-            <div className="space-y-4">
-              {resumeData.experience.map((exp, index) => (
-                <div key={index} className="border-l-4 border-purple-300 pl-4">
-                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-2">
-                    <h4 className="font-semibold text-gray-700">
-                      {exp.title}
-                      {exp.company && ` - ${exp.company}`}
-                    </h4>
-                    <span className="text-sm text-purple-600 font-medium">{exp.period}</span>
-                  </div>
-                  <ul className="space-y-1">
-                    {exp.achievements.map((achievement, i) => (
-                      <li key={i} className="text-gray-600 text-sm flex items-start">
-                        <span className="text-purple-500 mr-2">•</span>
-                        <span>{achievement}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Projects */}
-          <div>
-            <h3 className="text-xl font-bold text-gray-800 mb-3 border-b-2 border-purple-200 pb-1">Projects</h3>
-            <div className="space-y-4">
-              {resumeData.projects.map((project, index) => (
-                <div key={index} className="border-l-4 border-orange-300 pl-4">
-                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-2">
-                    <h4 className="font-semibold text-gray-700">{project.title}</h4>
-                    <span className="text-sm text-orange-600 font-medium">{project.date}</span>
-                  </div>
-                  <p className="text-gray-600 text-sm mb-2">{project.description}</p>
-                  {project.tech && <p className="text-gray-600 text-sm mb-2">{project.tech}</p>}
-                  {project.impact && <p className="text-purple-600 text-sm font-medium">{project.impact}</p>}
-                </div>
-              ))}
-            </div>
-          </div>
+        <div className="flex-1 overflow-hidden">
+          {/* PDF Viewer - Full Size */}
+          <iframe
+            src="/resume.pdf#toolbar=0&navpanes=0&scrollbar=0&view=FitH"
+            className="w-full h-full border-0"
+            title="Pranav Chopra Resume"
+          />
         </div>
       </div>
     </div>
