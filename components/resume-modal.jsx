@@ -61,19 +61,34 @@ const resumeData = {
   ],
   projects: [
     {
-      title: "Property Management System",
+      title: "AI-Powered Google Classroom Assistant",
       date: "March 2025",
       description:
-        "AI-powered Google Classroom assistant (Streamlit + Gemini) that connects to Classroom/Drive/Calendar to answer questions, summarize materials, manage assignments, and draft communications for teachers and students.",
+        "Built a comprehensive AI chatbot using Google ADK that connects to Classroom/Drive/Calendar to answer questions, summarize materials, manage assignments, and draft communications for teachers and students.",
       tech: "Built in Python with a Streamlit UI and Google ADK agents, powered by Gemini via google-generativeai/litellm, and integrated with Google Classroom, Drive, and Calendar through google-api-python-client and google-auth (OAuth 2.0).",
       impact:
         "Improved student experience by 28% time-to-answer (3.6→2.6 min), +12% on-time submissions, and +15% CSAT over a 4-week pilot",
+      github: "https://github.com/prananchh/ClassroomChatBot",
     },
     {
-      title: "Unity Based 6 Level Video Game",
-      date: "April 2025",
+      title: "Lip Reader - Visual Speech Recognition",
+      date: "February 2025",
       description:
-        "Built a 2D sci-fi platformer in Unity using C and object-oriented programming to design modular systems for combat, AI, and progression. The enemy behaviors were implemented through inheritance and polymorphism, and the boss fight used a state machine with dynamic phase transitions. I created scalable systems for collectibles, health, and damage, and optimized collision checks and animations for smoother performance. The result was a polished, replayable game that went from a basic prototype to an engaging experience people wanted to come back to.",
+        "Developed a deep learning model that converts mouth-only video into text using Conv3D → BiLSTM with CTC. Trained and deployed in Colab/TensorFlow for visual speech recognition.",
+      tech: "Built in Python with TensorFlow and Keras, implementing Conv3D neural networks and BiLSTM with CTC for visual speech recognition without audio input.",
+      impact:
+        "Created an innovative computer vision solution for lip reading with potential applications in accessibility and silent communication.",
+      github: "https://github.com/prananchh/Lip-Reader",
+    },
+    {
+      title: "Personal Portfolio Website",
+      date: "January 2025",
+      description:
+        "Built this portfolio website from scratch using modern web technologies with smooth animations, particle effects, responsive design, and PDF resume generation.",
+      tech: "Built with Next.js, React, Tailwind CSS, JavaScript, jsPDF for PDF generation, and Canvas API for interactive particle effects.",
+      impact:
+        "Demonstrates full-stack development skills with modern web technologies and showcases professional presentation capabilities.",
+      github: "https://github.com/prananchh/Pranav_Portfolio",
     },
   ],
 }

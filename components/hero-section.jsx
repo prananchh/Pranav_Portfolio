@@ -40,11 +40,11 @@ export default function HeroSection() {
     }, 600)
   }
 
-  const scrollToAbout = () => {
+  const scrollToContact = () => {
     if (typeof window !== 'undefined') {
-      const aboutSection = document.getElementById("about")
-      if (aboutSection) {
-        aboutSection.scrollIntoView({ behavior: "smooth" })
+      const contactSection = document.getElementById("contact")
+      if (contactSection) {
+        contactSection.scrollIntoView({ behavior: "smooth" })
       }
     }
   }
@@ -104,7 +104,7 @@ export default function HeroSection() {
             className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-8 will-change-transform"
             style={animationVariants.fadeInUp(scrollVisible && animationStage >= 5, 800)}
           >
-            <InteractiveButton onClick={scrollToAbout} variant="primary" size="lg" className="rounded-full">
+            <InteractiveButton onClick={scrollToContact} variant="primary" size="lg" className="rounded-full">
               Get In Touch
             </InteractiveButton>
 
@@ -154,7 +154,7 @@ export default function HeroSection() {
 
           {/* Animated Arrow */}
           <MagneticButton
-            onClick={scrollToAbout}
+            onClick={scrollToContact}
             className="animate-bounce hover:scale-110 transition-transform duration-300 will-change-transform"
             style={animationVariants.fadeInUp(scrollVisible && animationStage >= 6, 1200)}
             strength={0.3}

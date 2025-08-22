@@ -14,7 +14,7 @@ export default function Navigation() {
       setIsScrolled(window.scrollY > 50)
 
       // Update active section based on scroll position
-      const sections = ["hero", "about", "experience", "projects"]
+      const sections = ["hero", "about", "experience", "projects", "contact"]
       const scrollPosition = window.scrollY + 100
 
       for (const section of sections) {
@@ -93,6 +93,14 @@ export default function Navigation() {
               }`}
             >
               Projects
+            </button>
+            <button
+              onClick={() => scrollToSection("contact")}
+              className={`text-sm font-medium transition-colors duration-200 hover:text-purple-600 ${
+                activeSection === "contact" ? "text-purple-600" : "text-gray-700"
+              }`}
+            >
+              Contact
             </button>
           </div>
 
