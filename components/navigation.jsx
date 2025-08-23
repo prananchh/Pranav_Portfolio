@@ -7,6 +7,7 @@ export default function Navigation() {
   const [isScrolled, setIsScrolled] = useState(false)
   const [activeSection, setActiveSection] = useState("hero")
   const [isMounted, setIsMounted] = useState(false)
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
 
   useEffect(() => {
     setIsMounted(true)
@@ -29,9 +30,20 @@ export default function Navigation() {
       }
     }
 
+    const handleClickOutside = (event) => {
+      if (isMobileMenuOpen && !event.target.closest('nav')) {
+        setIsMobileMenuOpen(false)
+      }
+    }
+
     window.addEventListener("scroll", handleScroll)
-    return () => window.removeEventListener("scroll", handleScroll)
-  }, [])
+    document.addEventListener("click", handleClickOutside)
+    
+    return () => {
+      window.removeEventListener("scroll", handleScroll)
+      document.removeEventListener("click", handleClickOutside)
+    }
+  }, [isMobileMenuOpen])
 
   if (!isMounted) {
     return (
@@ -49,7 +61,15 @@ export default function Navigation() {
     const element = document.getElementById(sectionId)
     if (element) {
       element.scrollIntoView({ behavior: "smooth" })
+      // Close mobile menu after clicking a link
+      setIsMobileMenuOpen(false)
     }
+  }
+
+  const toggleMobileMenu = () => {
+    console.log('Mobile menu toggle clicked! Current state:', isMobileMenuOpen)
+    setIsMobileMenuOpen(!isMobileMenuOpen)
+    console.log('New state will be:', !isMobileMenuOpen)
   }
 
   return (
@@ -106,13 +126,53 @@ export default function Navigation() {
 
           {/* Mobile Menu Button */}
           <div className="md:hidden">
-            <Button variant="ghost" size="sm" className="text-gray-700 hover:text-pink-500">
+            <Button variant="ghost" size="sm" className="text-gray-700 hover:text-pink-500" onClick={toggleMobileMenu}>
               <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
               </svg>
             </Button>
           </div>
         </div>
+
+        {/* Mobile Menu Dropdown */}
+        {isMobileMenuOpen && (
+          <div className="md:hidden bg-white/95 backdrop-blur-md border-t border-gray-200 shadow-lg">
+            <div className="px-4 py-2 space-y-1">
+              <button
+                onClick={() => scrollToSection("about")}
+                className={`w-full text-left px-4 py-3 rounded-lg text-sm font-medium transition-colors duration-200 hover:bg-purple-50 ${
+                  activeSection === "about" ? "text-purple-600 bg-purple-50" : "text-gray-700"
+                }`}
+              >
+                About
+              </button>
+              <button
+                onClick={() => scrollToSection("experience")}
+                className={`w-full text-left px-4 py-3 rounded-lg text-sm font-medium transition-colors duration-200 hover:bg-purple-50 ${
+                  activeSection === "experience" ? "text-purple-600 bg-purple-50" : "text-gray-700"
+                }`}
+              >
+                Experience
+              </button>
+              <button
+                onClick={() => scrollToSection("projects")}
+                className={`w-full text-left px-4 py-3 rounded-lg text-sm font-medium transition-colors duration-200 hover:bg-purple-50 ${
+                  activeSection === "projects" ? "text-purple-600 bg-purple-50" : "text-gray-700"
+                }`}
+              >
+                Projects
+              </button>
+              <button
+                onClick={() => scrollToSection("contact")}
+                className={`w-full text-left px-4 py-3 rounded-lg text-sm font-medium transition-colors duration-200 hover:bg-purple-50 ${
+                  activeSection === "contact" ? "text-purple-600 bg-purple-50" : "text-gray-700"
+                }`}
+              >
+                Contact
+              </button>
+            </div>
+          </div>
+        )}
       </div>
     </nav>
   )
